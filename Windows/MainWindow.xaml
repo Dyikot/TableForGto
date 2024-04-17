@@ -1,0 +1,290 @@
+﻿<Window x:Class="TableForGto.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TableForGto"
+        xmlns:Commands="clr-namespace:TableForGto.Commands"
+        mc:Ignorable="d"
+        Title="TableForGto" Height="768" Width="1366"
+        WindowState="Maximized"
+        FontSize="16"
+        MouseDown="OnMainGridClick"
+        Icon="/Resources/Images/Windows/MainWindowIcon.ico"
+        FontFamily="Open Sans">
+    <Window.CommandBindings>
+        <CommandBinding 
+            Command="Commands:WindowCommands.Close"                        
+            Executed="CloseCommandExecuted"/>
+        <CommandBinding
+            Command="Commands:TableCommands.MakeRating"
+            Executed="MakeRatingCommandExecuted"/>
+        <CommandBinding
+            Command="Commands:TableCommands.ClearRating"
+            Executed="ClearRatingCommandExecuted"/>
+        <CommandBinding
+            Command="Save"
+            Executed="SaveProjectCommandExecuted"/>
+        <CommandBinding 
+            Command="Open"
+            Executed="OpenCommandExecuted"/>
+        <CommandBinding 
+            Command="New"
+            Executed="NewCommandExecuted"/>
+        <CommandBinding
+            Command="Help"
+            Executed="HelpCommandExecuted"/>
+    </Window.CommandBindings>
+    
+    <Grid Name="_windowGrid"
+          Focusable="True">
+        <Grid.RowDefinitions>
+            <!--Menu-->
+            <RowDefinition Height="auto"/>
+            <!--Title-->
+            <RowDefinition Height="40"/>
+            <!--Table-->
+            <RowDefinition Height="*"/>
+            <!--TableMenu-->
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Menu Name="_menu"
+              Grid.Row="0"
+              Background="White"
+              FontFamily="Open Sans">
+            <Menu.CommandBindings>
+                <CommandBinding 
+                    Command="Commands:TableCommands.AddNumericColumn"
+                    Executed="AddNumericColumnCommandExecuted"/>
+                <CommandBinding 
+                    Command="Commands:TableCommands.AddTextColumn"
+                    Executed="AddTextColumnCommandExecuted"/>
+                <CommandBinding 
+                    Command="Commands:TableCommands.AddTimeColumn"
+                    Executed="AddTimeColumnCommandExecuted"/>
+                <CommandBinding 
+                    Command="Commands:TableCommands.AddDateColumn"
+                    Executed="AddDateColumnCommandExecuted"/>
+            </Menu.CommandBindings>
+            
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый проект" Command="New">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\NewProject.png"/>
+                    </MenuItem.Icon>    
+                </MenuItem>
+
+                <MenuItem Header="Открыть" Command="Open">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\OpenProject.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                
+                <MenuItem Header="Сохранить" Command="Save">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\SaveProject.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <Separator/>
+
+                <MenuItem Command="Commands:WindowCommands.Close"/>
+                
+            </MenuItem>
+
+            <MenuItem Header="Правка">
+                <MenuItem Command="Commands:TableCommands.CopyWithHeaders">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Copy.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Копировать" Command="Copy">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Copy.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Вырезать" Command="Cut">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Cut.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Вставить" Command="Paste">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Paste.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="Выделить все" Command="SelectAll">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\SelectAll.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem  Header="Удалить" MenuItem.SubmenuOpened="OnDeleteItemSubmenuOpen">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Delete.png"/>
+                    </MenuItem.Icon>
+                    
+                    <MenuItem Command="Commands:TableCommands.DeleteSelection"/>
+                    <MenuItem 
+                        Command="Commands:TableCommands.DeleteRows"
+                        Name="_deleteRowsMenuItem"/>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Вставка">
+                <MenuItem Header="Столбец">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Column.png"/>
+                    </MenuItem.Icon>
+
+                    <MenuItem Command="Commands:TableCommands.AddNumericColumn">
+                        <MenuItem.Icon>
+                            <Image Source="..\Resources\Images\Menu\Number.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Command="Commands:TableCommands.AddTextColumn">
+                        <MenuItem.Icon>
+                            <Image Source="..\Resources\Images\Menu\Text.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Command="Commands:TableCommands.AddTimeColumn">
+                        <MenuItem.Icon>
+                            <Image Source="..\Resources\Images\Menu\Clock.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Command="Commands:TableCommands.AddDateColumn">
+                        <MenuItem.Icon>
+                            <Image Source="..\Resources\Images\Menu\Calendar.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Рейтинг">
+                <MenuItem Command="Commands:TableCommands.MakeRating">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Rating.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="Commands:TableCommands.ClearRating">
+                    <MenuItem.Icon>
+                        <Image Source="..\Resources\Images\Menu\Clear.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Справка" Command="Help"/>
+        </Menu>
+
+        <TextBox Name="_tableTitle"
+                 Grid.Row="1"
+                 IsReadOnly="True"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 FontSize="22"
+                 Focusable="True"
+                 BorderThickness="0"
+                 MouseDoubleClick="OnTableTitleDoubleClick"
+                 LostKeyboardFocus="OnTableTitleLostKeyboardFocus"
+                 KeyDown="OnTableTitleKeyDown">
+        </TextBox>
+
+        <Grid Name="_tableMenuGrid"
+              Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="_addTableButton"
+                    Grid.Column="0"
+                    BorderThickness="0"
+                    Background="Transparent"
+                    ToolTip="Добавить таблицу"
+                    Click="OnAddTableButtonClick"
+                    Panel.ZIndex="1">
+                <Image Source="..\Resources\Images\TableMenu\AddIcon.png"/>
+            </Button>
+
+            <ScrollViewer x:Name="_tableMenuScrollViewer"
+                          Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Hidden"
+                          CanContentScroll="False"
+                          Loaded="OnTableMenuLoaded"
+                          Background="Transparent"
+                          Panel.ZIndex="1">
+                <ToolBar Name="_tableMenu"                
+                         Background="Transparent"
+                         AllowDrop="True"
+                         Focusable="True"
+                         Drop="OnTableMenuDrop">
+                    <ToolBar.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding ViewName}"
+                                    ToolTip="{Binding Name}"
+                                    Background="Transparent"
+                                    VerticalContentAlignment="Center"
+                                    BorderThickness="0"
+                                    PreviewMouseMove="OnTableMenuButtonPreviewMouseMove"
+                                    
+                                    DragOver="OnTableMenuButtonDragOver"
+                                    GiveFeedback="OnTableMenuGiveFeedback"
+                                    PreviewMouseDown="OnTableMenuClick"
+                                    MouseRightButtonDown="OnTableMenuButtonRightClick"
+                                    Initialized="OnTableMenuButtonInit">
+                                <Button.CommandBindings>
+                                    <CommandBinding Command="Commands:TableMenuCommands.Remove"
+                                                    Executed="RemoveTableCommandExecuted"
+                                                    CanExecute="RemoveTableCommandCanExecuted"/>
+                                    <CommandBinding Command="Commands:TableMenuCommands.Rename"
+                                                    Executed="RenameTableCommandExecuted"/>
+                                    <CommandBinding Command="Commands:TableMenuCommands.Copy"
+                                                    Executed="CopyTableCommandExecuted"/>
+                                </Button.CommandBindings>
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="Commands:TableMenuCommands.Remove"/>
+                                        <MenuItem Command="Commands:TableMenuCommands.Rename"/>
+                                        <MenuItem Command="Commands:TableMenuCommands.Copy"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </DataTemplate>
+                    </ToolBar.ItemTemplate>
+                </ToolBar>
+            </ScrollViewer>
+
+            <!--Стиль кнопок проктутки таблиц-->
+            <Button 
+                Grid.Column="2"
+                Style="{StaticResource LeftScrollButton}"
+                Click="OnLeftScrollButtonClick"
+                Panel.ZIndex="1">
+            </Button>
+
+            <Button
+                Grid.Column="3"
+                Style="{StaticResource RightScrollButton}"
+                Click="OnRightScrollButtonClick"
+                Panel.ZIndex="1">
+            </Button>
+
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <StartupObject>TableForGto.App</StartupObject>
+    <ApplicationIcon>Resources\Images\Windows\MainWindowIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\AddIcon.png" />
+    <None Remove="Resources\Images\AddIcon.png" />
+    <None Remove="Resources\Images\Calendar.png" />
+    <None Remove="Resources\Images\Clock.png" />
+    <None Remove="Resources\Images\Column.png" />
+    <None Remove="Resources\Images\Menu\Clear.png" />
+    <None Remove="Resources\Images\Menu\Copy.png" />
+    <None Remove="Resources\Images\Menu\Cut.png" />
+    <None Remove="Resources\Images\Menu\Delete.png" />
+    <None Remove="Resources\Images\Menu\NewProject.png" />
+    <None Remove="Resources\Images\Menu\OpenProject.png" />
+    <None Remove="Resources\Images\Menu\Paste.png" />
+    <None Remove="Resources\Images\Menu\Rating.png" />
+    <None Remove="Resources\Images\Menu\SaveProject.png" />
+    <None Remove="Resources\Images\Menu\SelectAll.png" />
+    <None Remove="Resources\Images\Number.png" />
+    <None Remove="Resources\Images\StartWindow\CreateNewProjectIcon.png" />
+    <None Remove="Resources\Images\StartWindow\OpenFileDialogIcon.png" />
+    <None Remove="Resources\Images\StartWindow\OpenProjectIcon.png" />
+    <None Remove="Resources\Images\StartWindow\ProjectHelp.ico" />
+    <None Remove="Resources\Images\StartWindow\ProjectIcon.ico" />
+    <None Remove="Resources\Images\TableMenu\LeftArrow.png" />
+    <None Remove="Resources\Images\TableMenu\RightArrow.png" />
+    <None Remove="Resources\Images\Text.png" />
+    <None Remove="Resources\Images\Windows\MainWindowIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\Menu\Clear.png" />
+    <Resource Include="Resources\Images\Menu\Copy.png" />
+    <Resource Include="Resources\Images\Menu\Cut.png" />
+    <Resource Include="Resources\Images\Menu\Delete.png" />
+    <Resource Include="Resources\Images\Menu\NewProject.png" />
+    <Resource Include="Resources\Images\Menu\OpenProject.png" />
+    <Resource Include="Resources\Images\Menu\Paste.png" />
+    <Resource Include="Resources\Images\Menu\Rating.png" />
+    <Resource Include="Resources\Images\Menu\SaveProject.png" />
+    <Resource Include="Resources\Images\Menu\SelectAll.png" />
+    <Resource Include="Resources\Images\StartWindow\CreateNewProjectIcon.png" />
+    <Resource Include="Resources\Images\StartWindow\OpenFileDialogIcon.png" />
+    <Resource Include="Resources\Images\StartWindow\OpenProjectIcon.png" />
+    <Resource Include="Resources\Images\HelpWindow\ProjectHelp.ico" />
+    <Resource Include="Resources\Images\StartWindow\ProjectIcon.ico" />
+    <Resource Include="Resources\Images\TableMenu\AddIcon.png" />
+    <Resource Include="Resources\Images\Menu\Calendar.png" />
+    <Resource Include="Resources\Images\Menu\Clock.png" />
+    <Resource Include="Resources\Images\Menu\Column.png" />
+    <Resource Include="Resources\Images\Menu\Number.png" />
+    <Resource Include="Resources\Images\Menu\Text.png" />
+    <Resource Include="Resources\Images\TableMenu\LeftArrow.png" />
+    <Resource Include="Resources\Images\TableMenu\RightArrow.png" />
+    <Resource Include="Resources\Images\Windows\MainWindowIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+
+</Project>

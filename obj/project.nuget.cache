@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "CaIYCvz1ybFk9u5Qa6e5IoqZ2U4ufKCoY1OJqajCrEyojl4xjQqGyuCM/OsYeoPBw+Ty5va9H+ohXyuz9je7qA==",
+  "success": true,
+  "projectFilePath": "C:\\MyFiles\\Projects\\TableForGto\\TableForGto\\TableForGto.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dimak\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.17763.28\\microsoft.windows.sdk.net.ref.10.0.17763.28.nupkg.sha512"
+  ],
+  "logs": []
+}

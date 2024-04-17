@@ -1,0 +1,199 @@
+﻿<Window x:Class="TableForGto.Windows.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TableForGto.Windows"
+        mc:Ignorable="d"
+        Title="Справка" 
+        Height="450" 
+        Width="800"
+        Icon="..\Resources\Images\HelpWindow\ProjectHelp.ico">
+    <Window.Resources>
+        <!--Стиль всего документа-->
+        <Style TargetType="FlowDocument">
+            <Setter Property="FontFamily" Value="Open Sans"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+        <Style TargetType="List">
+            <Setter Property="Margin" Value="0 0 0 5"/>
+        </Style>
+        
+        <!--Отступы для каждого параграфа-->
+        <Style x:Key="MainParagraph" TargetType="Paragraph">
+            <Setter Property="TextIndent" Value="1.25 cm"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+        </Style>
+
+        <!--Стили заголовков-->
+        <Style x:Key="SubTitle" 
+               TargetType="Paragraph"
+               BasedOn="{StaticResource MainParagraph}">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="Title"
+               TargetType="Paragraph"
+               BasedOn="{StaticResource SubTitle}">
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <FlowDocumentScrollViewer>
+            <FlowDocument>
+                <Paragraph Style="{StaticResource Title}">
+                    1. Начало работы
+                </Paragraph>                
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Чтобы приступить к работе, сначало требуется создать проект или
+                    выбрать уже существующий. Чтобы создать проект в окне стартого меню
+                    нажать на кнопку "Создать новый проект". В начале следует выбрать
+                    расположение проекта и ввести его название. Ввести название проекта 
+                    можно как и в во вкладке создания проекта так и в окне выбора его
+                    расположения. Далее следует на кнопку "Создать" и вы сразу перейдете к проекту.
+                    Чтобы открыть уже существующйи проект требуется нажать на кнопку "Открыть проект"
+                    на стартовом окне. Расширение используемое проектами - "tgto".
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Чтобы создать новый проект в окне проекта требуется нажать на 
+                    "Файл->Новый проект" или воспользоваться горячей клавишей "Ctrl + N".
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Чтобы открыть существующий проект в окне проекта требуется нажать на
+                    "Файл->Открыть" или воспользоваться горячей клавишей "Ctrl + O".
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Для сохранения проекта требуется нажать на 
+                    "Файл->Сохранить" или воспользоваться горячей клавишей "Ctrl + S".
+                    Также существует автосохранение. Оно производится каждые 10 минут.
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Для закрытия проекта требуется нажмать на 
+                    "Файл->Закрыть" или воспользоваться горячей клавишей "Ctrl + S".
+                    Также закрыть проект можно нажав на кнопку "Закрыть" (Она изображена в виде крестика).
+                </Paragraph>
+
+                <Paragraph Style="{StaticResource Title}">
+                    2. Работа с таблицей
+                </Paragraph>                
+
+                <Paragraph Style="{StaticResource SubTitle}">
+                    2.1 Столбцы
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    По умолчанию в таблице представлено 3 столбца: "Место", "ФИО" и "Группа".
+                    Для добавления новых столбцов требуется нажать "Вставка->Столбец" и выбрать
+                    тип слолбца. Всего существует 4 типа: "Числовой", "Текстовый", "Время" и "Дата".
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Для сортивки столбцов требуется нажать на их заголовок. Чтобы перетащить
+                    столбец на другую позицию достаточно зажать заголовок левой кнопкой мыши (ЛКМ)
+                    и перенести на желаемое место. Для удаления и переименования столбца требуется 
+                    нажать правой кнопкой мыши (ПКМ) на заголовок столбца чтобы вызвать контекстное
+                    меню и выбрать желаемое действие. Удалять и переименовать можно только
+                    добавленные столбцы, но при этом столбцы по умолчанию можно перетаскивать.
+                </Paragraph>
+
+                <Paragraph Style="{StaticResource SubTitle}">
+                    2.2 Формат данных
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Примеры заполнения таблицы при разных форматах столцов:
+                </Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Числовой: "1", "2.05", "-5.32";</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Текстовой: "Привет мир!";</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Дата: "07.03.2022", "3.2.1990";</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Время:</Paragraph>
+                        <List>
+                            <ListItem>
+                                <Paragraph>Секунды: "9.5";</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>Минуты: "02:30";</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>Часы: "12:30:00".</Paragraph>
+                            </ListItem>
+                        </List>                        
+                    </ListItem>
+                </List>
+
+                <Paragraph Style="{StaticResource SubTitle}">
+                    2.3 Редактирование
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Раздел "Правка" предоставляет следующие возможности для редактирования:
+                </Paragraph>
+                <List>
+                    <ListItem>
+                        <Paragraph>Копирование (CTRL + C)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Копирование с заголовками (CTRL + SHIFT + C)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Вырезание (CTRL + X)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Вставка (CTRL + V)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Выделить все (CTRL + A)</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Удаление (Delete)</Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph Style="{StaticResource SubTitle}">
+                    2.3 Управление
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Для добавления новой таблицы требуется нажать на кнопку 
+                    "Добавить таблицу", расположенную в левом нижнем угле и изображена
+                    в виде знака "+".
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    На нижней панели расположены сами таблицы. Чтобы изменить название,
+                    удалить или дублировать таблицу требуется нажать правой кнопкой мыши
+                    (ПКМ) на таблицу, расположенной на панели. После чего появится контекстное
+                    меню, где и можно выбрать желаемое действие. Также редактировать название
+                    таблицы можно совершив двойное нажатие по самому названию, расположенному
+                    выше таблицы. После редактирования можно нажать на кнопку "Enter" или
+                    нажать на любое другое место программы чтобы выйти из режима редактирования.
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Также таблицы в нижней части панеле можно менять местами. Для этого
+                    зажмите иконку таблицы и переместите ее на желаемую позицию.
+                    В случае нехватки места для отображения всех таблиц можно воспользоватся
+                    кнопками "Прокрутить влево" и "Прокрутить вправо", расположенными в
+                    правой нижней части.
+                </Paragraph>
+
+                <Paragraph Style="{StaticResource SubTitle}">
+                    2.4 Рейтинг
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    Для выставление рейтинга для каждого студента требуется нажать на 
+                    "Рейтинг->Составить" или воспользоватся горячей клавишей "F5".
+                </Paragraph>
+                <Paragraph Style="{StaticResource MainParagraph}">
+                    При определение рейтинга учитываются только столбцы с числовым форматом
+                    и форматом времени. Если поле столбца пустое, то студент по данному столбцу
+                    будет занимать последнее место. Если требуемые столбцы отсутсуют либо
+                    число студентов равно 0 рейтинг обнуляется.
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>
