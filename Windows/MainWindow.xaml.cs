@@ -23,15 +23,11 @@ namespace TableForGto.Windows
     public partial class MainWindow : Window
 	{
 		public DataGridModelViewCollection DataGridMVCollection { get; set; }
-
 		public TableMenuModelView TableMenuMV { get; set; }
-
 		public TableTitleModelView TableTitleMV { get; set; }
-
 		public MenuItemModelView DeleteRowsMenuItemMV { get; set; }
 
 		private DispatcherTimer _timer;
-
 		private readonly ProjectInfo _projectInfo;
 
 		public MainWindow(ProjectInfo projectInfo)
@@ -45,12 +41,10 @@ namespace TableForGto.Windows
 			TableTitleMV = new TableTitleModelView(_tableTitle);
 			TableMenuMV = new TableMenuModelView(_tableMenu, TableTitleMV, tables);
 			TableMenuMV.CurrentItemChanged += OnCurrentTableItemChanged;
-			DeleteRowsMenuItemMV = new MenuItemModelView(
-				_deleteRowsMenuItem, 
-				new MenuItemHeader("Строку")
-			);
+			DeleteRowsMenuItemMV = new MenuItemModelView(_deleteRowsMenuItem, 
+														 new MenuItemHeader("Строку"));
 
-			if (tables.Count() == 0)
+			if (!tables.Any())
 			{
 				DataGridMVCollection.Add(CreateDataGrid());
 				TableMenuMV.AddMenuItem();
@@ -59,21 +53,17 @@ namespace TableForGto.Windows
 			{
 				foreach(var table in tables)
 				{
-					DataGridMVCollection.Add(
-						CreateDataGrid(),
-						table.ResultColumns,
-						table.MainColumns.ToArray(),
-						table.Students
-					);
+					DataGridMVCollection.Add(CreateDataGrid(),
+											 table.ResultColumns,
+											 table.MainColumns.ToArray(),
+											 table.Students);
 				}
 			}
 
-			_timer = new DispatcherTimer(
-				new TimeSpan(0, 10, 0),
-				DispatcherPriority.Normal,
-				OnTimerTicks,
-				Application.Current.Dispatcher
-			);
+			_timer = new DispatcherTimer(new TimeSpan(0, 10, 0),
+										 DispatcherPriority.Normal,
+										 OnTimerTicks,
+										 Application.Current.Dispatcher);
 
 			_timer.Start();
 		}
@@ -137,11 +127,9 @@ namespace TableForGto.Windows
 			var button = (Button)sender;
 			var tableMenuItem = (TableMenuItem)button.DataContext;
 
-			var answer = InputBox.Show(
-				messageBoxText: "Введите название таблицы: ",
-				caption: "Переименование таблицы",
-				value: tableMenuItem.Name
-			);
+			var answer = InputBox.Show(messageBoxText: "Введите название таблицы: ",
+									   caption: "Переименование таблицы",
+									   value: tableMenuItem.Name);
 
 			if(answer != null)
 			{
@@ -164,9 +152,7 @@ namespace TableForGto.Windows
 				string itemName = $"{menuItem.Name} - Копия";
 				int duplicatesAmount = TableMenuMV.Items.Count(item => item.Name == itemName);
 
-				return duplicatesAmount > 0 ?
-					$"{itemName} ({duplicatesAmount})" :
-					itemName;
+				return duplicatesAmount > 0 ? $"{itemName} ({duplicatesAmount})" : itemName;
 			}
 		}
 
@@ -175,9 +161,8 @@ namespace TableForGto.Windows
 			TableTitleMV.MakeEditable();
 		}
 
-		private void OnTableTitleLostKeyboardFocus(
-			object sender, 
-			KeyboardFocusChangedEventArgs e)
+		private void OnTableTitleLostKeyboardFocus(object sender, 
+												   KeyboardFocusChangedEventArgs e)
 		{
 			SetCurrentTableTitleByEditing();
 		}
@@ -204,9 +189,8 @@ namespace TableForGto.Windows
 			}
 		}
 
-		private void AddNumericColumnCommandExecuted(
-			object sender, 
-			ExecutedRoutedEventArgs e)
+		private void AddNumericColumnCommandExecuted(object sender, 
+													 ExecutedRoutedEventArgs e)
 		{
 			DataGridMVCollection.Current.AddColumn(new NumericColumn());
 		}
@@ -252,35 +236,24 @@ namespace TableForGto.Windows
 
 			table.CommandBindings.AddRange(new List<CommandBinding>
 			{
-				new CommandBinding(
-					ApplicationCommands.Delete,
-					DeleteCommandExecute
-				),
+				new CommandBinding(ApplicationCommands.Delete,
+								   DeleteCommandExecute),
 
-				new CommandBinding(
-					ApplicationCommands.Paste,
-					PasteCommandExecuted
-				),
+				new CommandBinding(ApplicationCommands.Paste,
+								   PasteCommandExecuted),
 
-				new CommandBinding(
-					ApplicationCommands.Cut,
-					CutCommandExecuted
-				),
+				new CommandBinding(ApplicationCommands.Cut,
+								   CutCommandExecuted),
 
-				new CommandBinding(
-					TableCommands.DeleteSelection,
-					DeleteSelectionExecuted
-				),
+				new CommandBinding(TableCommands.DeleteSelection,
+								   DeleteSelectionExecuted),
 
-				new CommandBinding(
-					TableCommands.DeleteRows,
-					DeleteRowsCommandExecuted,
-					DeleteRowsCommandCanExecute
-				),
-				new CommandBinding(
-					TableCommands.CopyWithHeaders,
-					CopyWithHeadersCommandExecuted
-				)
+				new CommandBinding(TableCommands.DeleteRows,
+								   DeleteRowsCommandExecuted,
+								   DeleteRowsCommandCanExecute),
+
+				new CommandBinding(TableCommands.CopyWithHeaders,
+								   CopyWithHeadersCommandExecuted)
 			});		
 
 			_windowGrid.Children.Add(table);
@@ -302,15 +275,13 @@ namespace TableForGto.Windows
 		{
 			DataGridMVCollection.Current.ClearStudentsAtColumns(
 				DataGridMVCollection.Current.SelectedStudents,
-				DataGridMVCollection.Current.SelectedColumns
-			);
+				DataGridMVCollection.Current.SelectedColumns);
 		}
 
 		private void DeleteRowsCommandExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			DataGridMVCollection
-				.Current
-				.RemoveStudents(DataGridMVCollection.Current.SelectedStudents);
+			DataGridMVCollection.Current
+								.RemoveStudents(DataGridMVCollection.Current.SelectedStudents);
 		}
 
 		private void DeleteRowsCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -322,19 +293,20 @@ namespace TableForGto.Windows
 				return;
 			}
 
-			int first = DataGridMVCollection.Current.SortedStudents
-				.IndexOf(selectedStudents.First()) + 1;
-			int last = DataGridMVCollection.Current.SortedStudents
-				.IndexOf(selectedStudents.Last()) + 1;
+			int first = DataGridMVCollection.Current
+											.SortedStudents
+											.IndexOf(selectedStudents.First()) + 1;
+			int last = DataGridMVCollection.Current
+										   .SortedStudents
+										   .IndexOf(selectedStudents.Last()) + 1;
 
 			if (first > last)
 			{
 				(first, last) = (last,  first);
 			}
 
-			DeleteRowsMenuItemMV.Header.Value = first != last ?
-				$"Строки {first}-{last}" :
-				$"Строку {first}";
+			DeleteRowsMenuItemMV.Header.Value = first != last ? $"Строки {first}-{last}" :
+																$"Строку {first}";
 
 			e.CanExecute = true;
 		}
@@ -345,8 +317,7 @@ namespace TableForGto.Windows
 			var selectedColumns = DataGridMVCollection.Current.SelectedColumns;
 
 			if(selectedColumns.Count == DataGridMVCollection.Current.ResultColumns.Count
-										+ DataGridMVCollection.Current.MainColumns.Length
-			)
+										+ DataGridMVCollection.Current.MainColumns.Length)
 			{
 				DataGridMVCollection.Current.RemoveStudents(selectedStudents);
 			}
@@ -396,11 +367,9 @@ namespace TableForGto.Windows
 		{
 			if (e.LeftButton == MouseButtonState.Pressed && sender is Button button)
 			{
-				DragDrop.DoDragDrop(
-					button,
-					new DataObject(DataFormats.Serializable, button.DataContext), 
-					DragDropEffects.Move
-				);
+				DragDrop.DoDragDrop(button,
+									new DataObject(DataFormats.Serializable, button.DataContext), 
+									DragDropEffects.Move);
 			}
 		}
 
@@ -421,10 +390,8 @@ namespace TableForGto.Windows
 
 		private void OnTableMenuDrop(object sender, DragEventArgs e)
 		{
-			DataGridMVCollection.Move(
-				oldIndex: DataGridMVCollection.CurrentPosition,
-				newIndex: TableMenuMV.CurrentPosition
-			);
+			DataGridMVCollection.Move(oldIndex: DataGridMVCollection.CurrentPosition,
+									  newIndex: TableMenuMV.CurrentPosition);
 		}
 
 		private void SaveProjectCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -490,8 +457,7 @@ namespace TableForGto.Windows
 
 			if (targetButton.ActualWidth > sourceButton.ActualWidth &&
 				e.GetPosition(targetButton).X < targetButton.ActualWidth 
-												- sourceButton.ActualWidth
-			)
+												- sourceButton.ActualWidth)
 			{
 				return;
 			}
@@ -509,17 +475,13 @@ namespace TableForGto.Windows
 		{
 			var dataGrid = DataGridMVCollection.Current.View;
 
-			dataGrid.SetValue(
-				DataGrid.ClipboardCopyModeProperty, 
-				DataGridClipboardCopyMode.IncludeHeader
-			);
+			dataGrid.SetValue(DataGrid.ClipboardCopyModeProperty, 
+							  DataGridClipboardCopyMode.IncludeHeader);
 
 			ApplicationCommands.Copy.Execute(dataGrid, dataGrid);
 
-			dataGrid.SetValue(
-				DataGrid.ClipboardCopyModeProperty,
-				DataGridClipboardCopyMode.ExcludeHeader
-			);
+			dataGrid.SetValue(DataGrid.ClipboardCopyModeProperty,
+							  DataGridClipboardCopyMode.ExcludeHeader);
 		}
 
 		private void ClearRatingCommandExecuted(object sender, ExecutedRoutedEventArgs e)

@@ -13,6 +13,7 @@ namespace TableForGto.Windows.IOWindows
 		public InputBox(string messageBoxText, string caption, string value)
         {
             InitializeComponent();
+
             Title = caption;
             _message.Text = messageBoxText;
 			_answer.Text = value;

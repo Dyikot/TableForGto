@@ -11,7 +11,6 @@ namespace TableForGto.Serializers
 	public class ProjectSerializer
 	{
 		private const string Name = "ProjectsInfo.tgto.projects";
-
 		private static FileInfo _fileInfo = new($"{Environment.CurrentDirectory}\\{Name}");
 
 		public static void Serialize(IEnumerable<ProjectInfo> projects)
@@ -24,11 +23,10 @@ namespace TableForGto.Serializers
 
 		public static IEnumerable<ProjectInfo> Deserialize()
 		{
-			return _fileInfo.Exists ?
-				File.ReadAllLines(_fileInfo.FullName)
-				.Select(line => new ProjectInfo(line))
-				.OrderByDescending(project => project.LastAccessTime):
-				Enumerable.Empty<ProjectInfo>();
+			return _fileInfo.Exists ? File.ReadAllLines(_fileInfo.FullName)
+										  .Select(line => new ProjectInfo(line))
+										  .OrderByDescending(project => project.LastAccessTime):
+									  Enumerable.Empty<ProjectInfo>();
 		}
 	}
 }

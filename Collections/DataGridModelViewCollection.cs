@@ -13,21 +13,18 @@ using TableForGto.ViewModels;
 namespace TableForGto.Controllers
 {
     public class DataGridModelViewCollection: ObservableCollection<DataGridModelView>
-	{
-		public DataGridModelView Current { get; private set; }		
+	{		
+		public DataGridModelView Current { get; private set; }
+		public int CurrentPosition => Items.IndexOf(Current);
 
-		public void Add(
-			DataGrid dataGrid,
-			IEnumerable<ResultColumn>? resultColumns = null,
-			MainColumn[]? mainColumns = null,
-			IEnumerable<Student>? students = null
-		)
+		public void Add(DataGrid dataGrid,
+						IEnumerable<ResultColumn>? resultColumns = null,
+						MainColumn[]? mainColumns = null,
+						IEnumerable<Student>? students = null)
 		{
 			Add(new DataGridModelView(dataGrid, resultColumns, mainColumns, students));
 			Current = Items.First();
 		}
-
-		public int CurrentPosition => Items.IndexOf(Current);
 
 		public void MoveCurrentToPosition(int index)
 		{

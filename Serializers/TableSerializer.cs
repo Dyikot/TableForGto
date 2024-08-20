@@ -20,28 +20,18 @@ namespace TableForGto.Serializers
     public class TableSerializer
     {
         private const string Column = "Column";
-
         private const string Student = "Student";
-
 		private const string Title = "Title";
-
         private const string DateColumn = "DateColumn";
-
         private const string NumericColumn = "NumericColumn";
-
         private const string TextColumn = "TextColumn";
-
         private const string TimeColumn = "TimeColumn";
-
 		const char PropertyDelimiter = '=';
-
 		const char ValueDelimiter = '•';
 
 		public static void Serialize(IEnumerable<Table> tables, ProjectInfo fileInfo)
         {
-            if (!(fileInfo.Directory is DirectoryInfo directoryInfo && 
-                directoryInfo.Exists
-			))
+            if (!(fileInfo.Directory is DirectoryInfo directoryInfo && directoryInfo.Exists))
             {
                 throw new Exception($"Не существует: {fileInfo.FullName}");
             }
@@ -96,9 +86,7 @@ namespace TableForGto.Serializers
 
         public static IEnumerable<Table> Deserialize(ProjectInfo fileInfo)
         {
-			if (!(fileInfo.Directory is DirectoryInfo directoryInfo &&
-				directoryInfo.Exists)
-			)
+			if (!(fileInfo.Directory is DirectoryInfo directoryInfo && directoryInfo.Exists))
 			{
 				throw new Exception($"Не существует: {fileInfo.FullName}");
 			}
@@ -199,8 +187,7 @@ namespace TableForGto.Serializers
 
 			static IEnumerable<IColumnType?> ParseResults(
 				IEnumerable<string> values,
-				ICollection<ResultColumn> resultColumns
-			)
+				ICollection<ResultColumn> resultColumns)
 			{
 				return values.Select((value, i) =>
 				{

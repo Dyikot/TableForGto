@@ -11,11 +11,8 @@ namespace TableForGto.Models
 	public class Table
 	{
 		public string Title { get; set; }
-
 		public ICollection<MainColumn> MainColumns { get; set; }
-
 		public ICollection<ResultColumn> ResultColumns { get; set; }
-
 		public ICollection<Student> Students { get; set; }
 
 		public Table()

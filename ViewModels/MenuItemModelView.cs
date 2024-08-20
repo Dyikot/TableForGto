@@ -14,7 +14,6 @@ namespace TableForGto.ViewModels
 		public MenuItemHeader Header => _header;
 
 		private readonly MenuItem _item;
-
 		private readonly MenuItemHeader _header;
 
 		public MenuItemModelView(MenuItem item, MenuItemHeader itemHeader)
@@ -22,10 +21,8 @@ namespace TableForGto.ViewModels
 			_item = item;
 			_header = itemHeader;
 
-			_item.SetBinding(
-				MenuItem.HeaderProperty,
-				new Binding("Value") { Source = _header }
-			);
+			_item.SetBinding(MenuItem.HeaderProperty,
+							 new Binding("Value") { Source = _header });
 		}
 	}
 }

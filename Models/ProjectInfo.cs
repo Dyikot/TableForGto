@@ -9,23 +9,16 @@ namespace TableForGto.Models
 {
 	public class ProjectInfo
 	{
-		private readonly FileInfo _info;
-
 		public string Name => _info.Name;
-
 		public string FullName => _info.FullName;
-
 		public string Extension => _info.Extension;
-
 		public string NameOnly => Path.GetFileNameWithoutExtension(Name);
-
 		public string? DirectoryName => _info.DirectoryName;
-
 		public DirectoryInfo? Directory => _info.Directory;
-
 		public DateTime LastAccessTime => _info.LastAccessTime;
-
 		public bool Exists => _info.Exists;
+
+		private readonly FileInfo _info;
 
 		public ProjectInfo(string fileName)
 		{

@@ -18,7 +18,6 @@ namespace TableForGto.Windows
 	public partial class StartWindow : Window
 	{
 		public ProjectListModelView ProjectListMV { get; set; }
-
 		public ProjectModelView ProjectMV { get; set; }
 
 		private readonly OpenMode _openMode;
@@ -59,8 +58,7 @@ namespace TableForGto.Windows
 						$"Файл \"{projectInfo.NameOnly}\" не найден. Удалить из списка проектов?",
 						"Ошибка при отрытии проекта",
 						MessageBoxButton.YesNo,
-						MessageBoxImage.Question) == MessageBoxResult.Yes
-				)
+						MessageBoxImage.Question) == MessageBoxResult.Yes)
 				{
 					ProjectListMV.Items.Remove(projectInfo);
 				}
@@ -126,16 +124,13 @@ namespace TableForGto.Windows
 			ProjectSerializer.Serialize(ProjectListMV.Items);
 		}
 
-		private void CreateNewProjectCommandExecuted(
-			object sender, 
-			ExecutedRoutedEventArgs e
-		)
+		private void CreateNewProjectCommandExecuted(object sender, 
+													 ExecutedRoutedEventArgs e)
 		{
 			if (ProjectMV.ProjectInfo == null)
 			{
 				ProjectMV.ProjectInfo = new ProjectInfo(
-					$"{_projectPath.Text}\\{_projectName.Text}.tgto"
-				);
+					$"{_projectPath.Text}\\{_projectName.Text}.tgto");
 			}
 
 			if (!ProjectMV.ProjectInfo.Directory.Exists)

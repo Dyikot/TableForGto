@@ -12,8 +12,6 @@ namespace TableForGto.ViewModels
 {
 	public class TableTitleModelView
 	{
-		private readonly TextBox _tableTitle;
-
 		public string Title
 		{
 			get => _tableTitle.Text;
@@ -26,8 +24,9 @@ namespace TableForGto.ViewModels
 				_tableTitle.Text = value;
 			}
 		}
-
 		public bool IsReadOnly => _tableTitle.IsReadOnly;
+
+		private readonly TextBox _tableTitle;
 
 		public TableTitleModelView(TextBox tableTitle)
 		{

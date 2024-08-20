@@ -2,34 +2,24 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Common;
-using System.DirectoryServices;
-using System.Dynamic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using TableForGto.Commands;
-using TableForGto.Controllers;
 using TableForGto.Converters;
 using TableForGto.Models;
 using TableForGto.Models.Columns;
 using TableForGto.Models.ColumnTypes;
-using TableForGto.Windows;
 using TableForGto.Windows.IOWindows;
 
 namespace TableForGto.ViewModels
 {
-    public class DataGridModelView
+	public class DataGridModelView
 	{
 		public const int MainColumnsAmount = 3;
-
 		public static readonly MainColumn[] DefaultMainColumns = new MainColumn[3]
 		{
 			new MainColumn
@@ -54,40 +44,31 @@ namespace TableForGto.ViewModels
 		};
 
 		public readonly DataGrid View;
-
 		private readonly ObservableCollection<Student> _students;
-
 		/// <summary>
 		/// Представлется собой коллекцию в которой хранятся информация о ResultColumn.
 		/// Использование лишь актуально при добавлении и инициализации столбцов.
 		/// Не отслеживается изменение значения полей DiplayIndex и Header.
 		/// Для получения обновленной информации следует воспользоватся ResultColumns.
 		/// </summary>
-		private List<ResultColumn> _resultColumns;
-
-		private readonly ContextMenu? _columnContextMenu = 
-			Application
+		private readonly ContextMenu? _columnContextMenu = Application
 			.Current
 			.MainWindow
 			.FindResource("ColumnContextMenu") as ContextMenu;
 
-		public DataGridModelView(
-			DataGrid dataGrid, 
-			IEnumerable<ResultColumn>? resultColumns = null,
-			MainColumn[]? mainColumns = null,
-			IEnumerable<Student>? students = null
-		)
+		private List<ResultColumn> _resultColumns;
+
+		public DataGridModelView(DataGrid dataGrid, 
+								 IEnumerable<ResultColumn>? resultColumns = null,
+								 MainColumn[]? mainColumns = null,
+								 IEnumerable<Student>? students = null)
 		{
 			View = dataGrid;
 			
-			_students = new ObservableCollection<Student>(
-				students ?? 
-				Enumerable.Empty<Student>()
-			);
-			_resultColumns = new List<ResultColumn>(
-				resultColumns ?? 
-				Enumerable.Empty<ResultColumn>()
-			);
+			_students = new ObservableCollection<Student>(students ?? 
+														  Enumerable.Empty<Student>());
+			_resultColumns = new List<ResultColumn>(resultColumns ?? 
+													Enumerable.Empty<ResultColumn>());
 			View.ItemsSource = _students;
 
 			InitializeMainColumns(mainColumns);
@@ -96,11 +77,8 @@ namespace TableForGto.ViewModels
 		}
 
 		public string NewColumnName => $"Столбец {MainColumnsAmount + ResultDataGirdColumns.Count }";
-
 		public string NewColumnPath => $"Results[{AllResultsColumnsCount}]";
-
 		public DataGridColumn LastSortedColumn { get; set; }
-
 		public List<Student> Students
 		{
 			get
@@ -122,7 +100,6 @@ namespace TableForGto.ViewModels
 					.ToList();
 			}
 		}
-
 		public List<ResultColumn> ResultColumns
 		{
 			get
@@ -130,12 +107,12 @@ namespace TableForGto.ViewModels
 				// Выбор отображаемых столбцов, т.е не удаленных
 				// И преобразование в тип ResultColumn
 				var columns = View.Columns
-					.Where((column, index) => index > 2 &&
+					.Where((column, index) => index > 2 && 
 											  column.Visibility == Visibility.Visible)
 					.Select(column =>
 					{
 						var tableColumn = _resultColumns[View.Columns.IndexOf(column)
-							- MainColumnsAmount];
+										  - MainColumnsAmount];
 						return new ResultColumn()
 						{
 							Type = tableColumn.Type,
@@ -166,7 +143,6 @@ namespace TableForGto.ViewModels
 					.ToList();
 			}
 		}
-
 		public ReadOnlyCollection<Student> SortedStudents
 		{
 			get
@@ -177,23 +153,20 @@ namespace TableForGto.ViewModels
 					0 => student => student.Rating,
 					1 => student => student.Fio,
 					2 => student => student.Group,
-					_ => student => student.Results[
-						View.Columns.IndexOf(LastSortedColumn) - MainColumnsAmount]
+					_ => student => student.Results[View.Columns.IndexOf(LastSortedColumn) 
+													- MainColumnsAmount]
 				};
 
 				return new (LastSortedColumn.SortDirection switch
 				{
-					ListSortDirection.Ascending => _students
-						.OrderBy(orderProperty)
-						.ToList(),
-					ListSortDirection.Descending => _students
-						.OrderByDescending(orderProperty)
-						.ToList(),
+					ListSortDirection.Ascending => _students.OrderBy(orderProperty)
+															.ToList(),
+					ListSortDirection.Descending => _students.OrderByDescending(orderProperty)
+															 .ToList(),
 					_ => _students.ToList()
 				});
 			}
 		}
-
 		public MainColumn[] MainColumns
 		{
 			get
@@ -225,31 +198,50 @@ namespace TableForGto.ViewModels
 				};
 			}
 		}
-
 		public ReadOnlyCollection<Student> SelectedStudents
 		{
 			get
 			{
 				return new ReadOnlyCollection<Student>(
 					View.SelectedCells
-					.GroupBy(cellInfo => cellInfo.Column)
-					.First()
-					.Select(cellInfo => cellInfo.Item)
-					.Where(item => item is Student)
-					.Cast<Student>()
-					.ToList());
+						.GroupBy(cellInfo => cellInfo.Column)
+						.First()
+						.Select(cellInfo => cellInfo.Item)
+						.Where(item => item is Student)
+						.Cast<Student>()
+						.ToList());
 			}
 		}
-
 		public ReadOnlyCollection<DataGridColumn> SelectedColumns
 		{
 			get
 			{
 				return new ReadOnlyCollection<DataGridColumn>(
 					View.SelectedCells
-					.GroupBy(cellInfo => cellInfo.Column)
-					.Select(group => group.Key)
-					.ToList());
+						.GroupBy(cellInfo => cellInfo.Column)
+						.Select(group => group.Key)
+						.ToList());
+			}
+		}
+
+		private int AllResultsColumnsCount => View.Columns.Count - MainColumnsAmount;
+		/// <summary>
+		/// Представляет собой Dictionary, где в качестве ключа - индекс DataGridColumn в
+		/// коллекции _table.Columns.
+		/// </summary>
+		private Dictionary<int, DataGridColumn> ResultDataGirdColumns
+		{
+			get
+			{
+				return View.Columns
+						   .Take(Range.StartAt(MainColumnsAmount))
+						   .Where(column => column.Visibility == Visibility.Visible)
+						   .Select(column =>
+						   {
+							   int index = View.Columns.IndexOf(column);
+							   return (index, column);
+						   })
+						   .ToDictionary(tuple => tuple.index, tuple => tuple.column);
 			}
 		}
 
@@ -263,15 +255,20 @@ namespace TableForGto.ViewModels
 
 		public void MakeRating()
 		{
-			if(_students.Count == 0)
+			if(!_students.Any())
 			{
 				return;
 			}
 
-			if(ResultColumns.Count == 0)
+			if(!ResultColumns.Any())
 			{
 				ClearRating();
 				return;
+			}
+
+			static bool IsTypeAllowed(IColumnType? columnType)
+			{
+				return columnType is NumericColumn || columnType is TimeColumn;
 			}
 
 			var allowedResultColumnsIndices = ResultDataGirdColumns
@@ -308,43 +305,14 @@ namespace TableForGto.ViewModels
 			{
 				return;
 			}
-
-			double seconds, maxSeconds, numericValue, maxNumericValue;
 			
 			// Определение общего рейтинга для каждого student.
 			var studentsAndRating = _students
 				.Select(student =>
 				{
-					double rating = student.Results
-						.Select((result, position) => (result, position))
-						.Where(tuple => columnsMaxValues.ContainsKey(tuple.position))
-						.Select(tuple =>
-						{
-							if(tuple.result == null)
-							{
-								return double.NaN;
-							}
-
-							if (tuple.result is TimeColumn)
-							{
-								seconds = GetTotalSeconds((TimeOnly)tuple.result.Value);
-								maxSeconds = columnsMaxValues[tuple.position];
-
-								return 1 - (seconds / maxSeconds);
-							}
-							else
-							{
-								numericValue = (double)tuple.result.Value;
-								maxNumericValue = (double)columnsMaxValues[tuple.position];
-
-								return numericValue / maxNumericValue;
-							}
-						})
-						.Sum();
-
-					return (student, rating);
+					return (student, CalculateRatingOf(student, columnsMaxValues));
 				})
-				.OrderByDescending(tuple => tuple.rating)
+				.OrderByDescending(tuple => tuple.Item2)
 				.Select(tuple => tuple.student);
 
 			// Выставление рейтинга в поле Rating для каждого студента
@@ -352,17 +320,6 @@ namespace TableForGto.ViewModels
 			foreach(var student in studentsAndRating)
 			{
 				student.Rating = rating++;
-			}
-
-			static double GetTotalSeconds(TimeOnly time)
-			{
-				return (time.Hour * 60 * 60) + (time.Minute * 60) + time.Second + (double)time.Millisecond / 1000;
-			}
-
-			static bool IsTypeAllowed(IColumnType? columnType)
-			{
-				return columnType is NumericColumn ||
-					   columnType is TimeColumn;
 			}
 		}
 
@@ -395,14 +352,14 @@ namespace TableForGto.ViewModels
 			var rowsData = ConvertToRowsData(Clipboard.GetText());
 
 			var firstCellInfo = View.SelectedCells.First();
-			int firstStudentIndex = firstCellInfo.Item is Student ?
-				SortedStudents.IndexOf((Student)firstCellInfo.Item) :
-				_students.Count;
+			int firstStudentIndex = firstCellInfo.Item is Student ? 
+									SortedStudents.IndexOf((Student)firstCellInfo.Item) : 
+									_students.Count;
 			int firstColumnIndex = firstCellInfo.Column.DisplayIndex;
 
-			int studentsToAddAmount = rowsData.Count - _students
-				.Take(Range.StartAt(firstStudentIndex))
-				.Count();
+			int studentsToAddAmount = rowsData.Count 
+									  - _students.Take(Range.StartAt(firstStudentIndex))
+												 .Count();
 			studentsToAddAmount = studentsToAddAmount < 0 ? 0 : studentsToAddAmount;
 
 			foreach (int i in Enumerable.Range(1, studentsToAddAmount))
@@ -411,9 +368,8 @@ namespace TableForGto.ViewModels
 				InitializeNewStudent(_students.Last());
 			}
 
-			var studentsToPasteData = SortedStudents
-				.Take(Range.StartAt(Index.FromStart(firstStudentIndex)))
-				.ToList();
+			var studentsToPasteData = SortedStudents.Take(
+				Range.StartAt(Index.FromStart(firstStudentIndex))).ToList();
 
 			var displayIndexToColumnIndex = View.Columns
 				.Select((column, index) => (column.DisplayIndex, index))
@@ -524,9 +480,8 @@ namespace TableForGto.ViewModels
 			}
 		}
 
-		public void ClearStudentsAtColumns(
-			ICollection<Student> students, 
-			ICollection<DataGridColumn> columns)
+		public void ClearStudentsAtColumns(ICollection<Student> students, 
+										   ICollection<DataGridColumn> columns)
 		{
 			var columnIndices = columns.Select(column => View.Columns.IndexOf(column));
 
@@ -576,28 +531,6 @@ namespace TableForGto.ViewModels
 			}
 		}
 
-		private int AllResultsColumnsCount => View.Columns.Count - MainColumnsAmount;
-
-		/// <summary>
-		/// Представляет собой Dictionary, где в качестве ключа - индекс DataGridColumn в
-		/// коллекции _table.Columns.
-		/// </summary>
-		private Dictionary<int, DataGridColumn> ResultDataGirdColumns
-		{
-			get
-			{
-				return View.Columns
-					.Take(Range.StartAt(MainColumnsAmount))
-					.Where(column => column.Visibility == Visibility.Visible)
-					.Select(column =>
-					{
-						int index = View.Columns.IndexOf(column);
-						return (index, column);
-					})
-					.ToDictionary(tuple => tuple.index, tuple => tuple.column);
-			}
-		}
-
 		private void InitializeResultColumns()
 		{
 			foreach (var column in _resultColumns)
@@ -625,8 +558,7 @@ namespace TableForGto.ViewModels
 						command: TableCommands.RemoveColumn,
 						executed: RemoveTableColumnExecuted
 					)
-				}
-			);
+				});
 
 			var binding = new Binding(NewColumnPath)
 			{
@@ -639,8 +571,8 @@ namespace TableForGto.ViewModels
 				Binding = binding,
 				DisplayIndex = column.DisplayIndex,
 				Width = column.Width != null ?
-					new DataGridLength((double)column.Width) :
-					new DataGridLength()
+						new DataGridLength((double)column.Width) :
+						new DataGridLength()
 			});
 		}
 
@@ -649,11 +581,9 @@ namespace TableForGto.ViewModels
 			var contextMenu = (ContextMenu)sender;
 			var columnHeader = (DataGridColumnHeader)contextMenu.PlacementTarget;
 
-			var answer = InputBox.Show(
-				messageBoxText: "Введите название столбца: ",
-				caption: "Переименование столбца таблицы",
-				value: (string)columnHeader.Content
-			);
+			var answer = InputBox.Show(messageBoxText: "Введите название столбца: ",
+									   caption: "Переименование столбца таблицы",
+									   value: (string)columnHeader.Content);
 
 			if (answer != null)
 			{
@@ -680,6 +610,48 @@ namespace TableForGto.ViewModels
 				"DateColumn" => new StringToDateColumnConverter(),
 				_ => throw new NotImplementedException()
 			};
+		}
+
+		private double GetTotalSeconds(TimeOnly time)
+		{
+			return time.Hour * 60 * 60
+				   + time.Minute * 60
+				   + time.Second
+				   + (double)time.Millisecond / 1000;
+		}
+
+		private double CalculateRatingOf(Student student,
+										 Dictionary<int, double> columnsMaxValues)
+		{
+			double seconds, maxSeconds, numericValue, maxNumericValue;
+
+			return student
+				.Results
+				.Select((result, position) => (result, position))
+				.Where(tuple => columnsMaxValues.ContainsKey(tuple.position))
+				.Select(tuple =>
+				{
+					if (tuple.result == null)
+					{
+						return double.NaN;
+					}
+
+					if (tuple.result is TimeColumn)
+					{
+						seconds = GetTotalSeconds((TimeOnly)tuple.result.Value);
+						maxSeconds = columnsMaxValues[tuple.position];
+
+						return 1 - (seconds / maxSeconds);
+					}
+					else
+					{
+						numericValue = (double)tuple.result.Value;
+						maxNumericValue = (double)columnsMaxValues[tuple.position];
+
+						return numericValue / maxNumericValue;
+					}
+				})
+				.Sum();
 		}
 	}
 }

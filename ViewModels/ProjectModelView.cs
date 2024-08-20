@@ -11,10 +11,8 @@ namespace TableForGto.ViewModels
 {
 	public class ProjectModelView
 	{
-		private ProjectInfo? _projectInfo;
-		
+		private ProjectInfo? _projectInfo;		
 		private readonly TextBox _nameView;
-
 		private readonly TextBox _pathView;
 
 		public ProjectModelView(TextBox projectName, TextBox projectPath)

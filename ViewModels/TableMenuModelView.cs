@@ -22,22 +22,16 @@ namespace TableForGto.ViewModels
 	public class TableMenuModelView
 	{
 		public event EventHandler CurrentItemChanged;
-
 		public ToolBar View { get; set; }
-
 		public TableTitleModelView TableTitleMV { get; set; }
 
 		private readonly List<Button> _buttons = new();
-
 		private readonly ObservableCollection<TableMenuItem> _items;
-
 		private Button? _currentButton;
 
-		public TableMenuModelView(
-			ToolBar tableMenu, 
-			TableTitleModelView tableTitleVM,
-			IEnumerable<Table>? tables = null
-		)
+		public TableMenuModelView(ToolBar tableMenu, 
+								  TableTitleModelView tableTitleVM,
+								  IEnumerable<Table>? tables = null)
 		{
 			TableTitleMV = tableTitleVM;
 			View = tableMenu;
@@ -66,11 +60,8 @@ namespace TableForGto.ViewModels
 				}
 			}
 		}
-
 		public ReadOnlyCollection<TableMenuItem> Items => new(_items);
-
 		public int CurrentPosition => _items.IndexOf(CurrentItem);
-
 		public Button? CurrentButton
 		{
 			get => _currentButton;
@@ -132,10 +123,8 @@ namespace TableForGto.ViewModels
 			_buttons.RemoveAt(itemIndex);
 		}
 
-		public void MoveItemToOtherItemPlace(
-			TableMenuItem sourceItem, 
-			TableMenuItem targetItem
-		)
+		public void MoveItemToOtherItemPlace(TableMenuItem sourceItem, 
+											 TableMenuItem targetItem)
 		{
 			var sourceIndex = _items.IndexOf(sourceItem);
 			var targetIndex = _items.IndexOf(targetItem);
