@@ -10,25 +10,7 @@
     <ApplicationDefinition Update="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Update="Windows\HelpWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Update="Resources\Dictionaries\MainWindowDictionary.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Resources\Dictionaries\StartWindowDictionary.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\HelpWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\IOWindows\InputBox.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Windows\StartWindow.xaml">
+    <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
