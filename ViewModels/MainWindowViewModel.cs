@@ -31,12 +31,6 @@ namespace TableForGto.ViewModels
 		}
 
 		[RelayCommand]
-		private async Task SetRatingAsync() => await SelectedTable.SetRatingAsync();
-
-		[RelayCommand]
-		private void ClearRating() => SelectedTable.ClearRating();
-
-		[RelayCommand]
 		private void AddTable() => Tables.Add(CreateTable());
 
 		private TableViewModel CreateTable() => new($"Таблица {Tables.Count + 1}");

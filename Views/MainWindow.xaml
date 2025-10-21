@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableForGto"
+        xmlns:vm="clr-namespace:TableForGto.ViewModels"
+        xmlns:commands="clr-namespace:TableForGto.Commands"
         mc:Ignorable="d"
         Title="TableForGto" 
         Height="900" Width="1600"
@@ -15,11 +17,21 @@
         <CommandBinding Command="New" Executed="NewExecuted" />
         <CommandBinding Command="Open" Executed="OpenExecuted" />
         <CommandBinding Command="Close" Executed="CloseExecuted" />
+        <CommandBinding Command="commands:TableCommands.AddIntColumnCommand"
+                        Executed="AddIntColumnExecuted" />
+        <CommandBinding Command="commands:TableCommands.AddFloatColumnCommand"
+                        Executed="AddFloatColumnExecuted" />
+        <CommandBinding Command="commands:TableCommands.AddStringColumnCommand"
+                        Executed="AddStringColumnExecuted" />
+        <CommandBinding Command="commands:TableCommands.AddDateColumnCommand"
+                        Executed="AddDateColumnExecuted" />
+        <CommandBinding Command="commands:TableCommands.AddTimeColumnCommand"
+                        Executed="AddTimeColumnExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
         <KeyBinding Key="F4" Modifiers="Alt" Command="Close" />
-        <KeyBinding Key="F5" Command="{Binding SetRatingCommand}" />
+        <KeyBinding Key="F5" Command="{Binding SelectedTable.SetRatingCommand}" />
     </Window.InputBindings>
     <DockPanel Margin="5">
         <!--Top menu-->
@@ -83,22 +95,32 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Вставка">
-                <MenuItem Header="Числовой столбец">
+                <MenuItem Header="Cтолбец целого числа" 
+                          Command="commands:TableCommands.AddIntColumnCommand">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/Number.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Текстовый столбец">
+                <MenuItem Header="Столбец вещественного числа" 
+                          Command="commands:TableCommands.AddFloatColumnCommand">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Images/Menu/Number.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Столбец строки"
+                          Command="commands:TableCommands.AddStringColumnCommand">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/Text.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Столбец времени">
+                <MenuItem Header="Столбец времени"
+                          Command="commands:TableCommands.AddTimeColumnCommand">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/Clock.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Столбец даты">
+                <MenuItem Header="Столбец даты"
+                          Command="commands:TableCommands.AddDateColumnCommand">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/Calendar.png"/>
                     </MenuItem.Icon>
@@ -106,13 +128,13 @@
             </MenuItem>
             <MenuItem Header="Рейтинг">
                 <MenuItem Header="Составить" 
-                          Command="{Binding SetRatingCommand}"
+                          Command="{Binding SelectedTable.SetRatingCommand}"
                           InputGestureText="F5">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/Rating.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Очистить" Command="{Binding ClearRatingCommand}">
+                <MenuItem Header="Очистить" Command="{Binding SelectedTable.ClearRatingCommand}">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/Clear.png"/>
                     </MenuItem.Icon>
@@ -149,9 +171,9 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Title}"
-               TextWrapping="NoWrap"
-               TextTrimming="CharacterEllipsis"
-               Width="150"/>
+                                   TextWrapping="NoWrap"
+                                   TextTrimming="CharacterEllipsis"
+                                   Width="150"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -159,20 +181,12 @@
         <!--Table-->
         <DataGrid DataContext="{Binding SelectedTable}"
                   ItemsSource="{Binding Students}"
-                  AutoGenerateColumns="False"                  
-                  Margin="0 5 0 5">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Place}" 
-                                    Header="Место"                                     
-                                    Width="75" 
-                                    IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding FullName}"
-                                    Header="ФИО"                                    
-                                    Width="250"/>
-                <DataGridTextColumn Binding="{Binding Group}" 
-                                    Header="Группа" 
-                                    Width="125" />
-            </DataGrid.Columns>
-        </DataGrid>
+                  Name="_dataGrid"
+                  AutoGenerateColumns="False"
+                  AddingNewItem="OnAddStudent"
+                  ColumnDisplayIndexChanged="OnColumnIndexChanged"
+                  DataContextChanged="OnTableChanged"
+                  SelectionUnit="Cell"
+                  Margin="0 5 0 5" />
     </DockPanel>
 </Window>

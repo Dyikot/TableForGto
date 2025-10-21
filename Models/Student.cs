@@ -10,6 +10,7 @@ namespace TableForGto.Models
     {
         public int? Place { get; set; }
         public string FullName { get; set; } = string.Empty;
-        public string Group { get; set; } = string.Empty;
-    }
+		public string Group { get; set; } = string.Empty;
+        public Dictionary<string, object> Results { get; set; } = [];
+	}
 }
