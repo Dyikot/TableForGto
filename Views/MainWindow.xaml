@@ -13,13 +13,15 @@
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         ThemeMode="Light"
-        Icon="/Assets/Images/MainWindowIcon.ico">
+        Icon="/Assets/Images/AppIcon.ico">
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="NewExecuted" />
         <CommandBinding Command="Open" Executed="OpenExecuted" />
         <CommandBinding Command="Close" Executed="CloseExecuted" />
         <CommandBinding Command="{x:Static commands:MenuCommands.AddColumnCommand}"
                         Executed="AddColumnExecuted" />
+        <CommandBinding Command="{x:Static commands:MenuCommands.AddRowsCommand}"
+                        Executed="AddRowsExecured" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
@@ -90,7 +92,12 @@
             <MenuItem Header="Вставка">
                 <MenuItem Command="{x:Static commands:MenuCommands.AddColumnCommand}">
                     <MenuItem.Icon>
-                        <Image Source="/Assets/Images/Menu/Column.png"/>
+                        <Image Source="/Assets/Images/Menu/AddColumn.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{x:Static commands:MenuCommands.AddRowsCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Assets/Images/Menu/AddRow.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -150,9 +157,9 @@
         <DataGrid DataContext="{Binding SelectedTable}"
                   ItemsSource="{Binding Students}"
                   Name="_dataGrid"
+                  CanUserAddRows="False"
+                  CanUserResizeRows="False"
                   AutoGenerateColumns="False"
-                  AddingNewItem="OnAddStudent"
-                  ColumnDisplayIndexChanged="OnColumnIndexChanged"
                   DataContextChanged="OnTableChanged"
                   SelectionUnit="Cell"
                   Margin="0 5 0 5" />

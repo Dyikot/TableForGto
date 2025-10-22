@@ -6,16 +6,19 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <StartupObject>TableForGto.App</StartupObject>
-    <ApplicationIcon>Assets\Images\MainWindowIcon.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Images\AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\AddIcon.png" />
     <None Remove="Assets\Images\Add.png" />
     <None Remove="Assets\Images\AddIcon.png" />
+    <None Remove="Assets\Images\AppIcon.ico" />
     <None Remove="Assets\Images\Calendar.png" />
     <None Remove="Assets\Images\Clock.png" />
     <None Remove="Assets\Images\Column.png" />
+    <None Remove="Assets\Images\Menu\AddColumn.png" />
+    <None Remove="Assets\Images\Menu\AddRow.png" />
     <None Remove="Assets\Images\Menu\Clear.png" />
     <None Remove="Assets\Images\Menu\Copy.png" />
     <None Remove="Assets\Images\Menu\Cut.png" />
@@ -33,6 +36,9 @@
 
   <ItemGroup>
     <Resource Include="Assets\Images\Add.png" />
+    <Resource Include="Assets\Images\AppIcon.ico" />
+    <Resource Include="Assets\Images\Menu\AddColumn.png" />
+    <Resource Include="Assets\Images\Menu\AddRow.png" />
     <Resource Include="Assets\Images\Menu\Clear.png" />
     <Resource Include="Assets\Images\Menu\Copy.png" />
     <Resource Include="Assets\Images\Menu\Cut.png" />
@@ -44,8 +50,6 @@
     <Resource Include="Assets\Images\Menu\Rating.png" />
     <Resource Include="Assets\Images\Menu\SaveProject.png" />
     <Resource Include="Assets\Images\Menu\SelectAll.png" />
-    <Resource Include="Assets\Images\Menu\Column.png" />
-    <Resource Include="Assets\Images\MainWindowIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

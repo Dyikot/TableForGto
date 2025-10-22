@@ -4,19 +4,16 @@ using System.Data.Common;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using TableForGto.Converters;
 using TableForGto.DataTemplates;
 using TableForGto.Models;
 using TableForGto.ViewModels;
-using Windows.Devices.HumanInterfaceDevice;
 
 namespace TableForGto.Views
 {
     public partial class MainWindow : Window
 	{
-		private readonly ColumnsTemplate _columnsTemaplate = new();
+		private readonly ColumnsTemplate _columnsTemplate = new();
 
 		public MainWindow()
 		{
@@ -36,15 +33,6 @@ namespace TableForGto.Views
 
 		private void CloseExecuted(object sender, ExecutedRoutedEventArgs e) => Close();
 
-		private void OnColumnIndexChanged(object sender, DataGridColumnEventArgs e)
-		{
-			var table = (TableViewModel)_dataGrid.DataContext;
-			var header = (ColumnHeaderViewModel)e.Column.Header;
-			var column = table.Columns.First(c => c.Header.Name == header.Name);
-
-			column.Order = e.Column.DisplayIndex;
-		}
-
 		private void OnTableChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			UpdateColumns((TableViewModel)e.NewValue);
@@ -52,27 +40,13 @@ namespace TableForGto.Views
 
 		private void UpdateColumns(TableViewModel table)
 		{
-			var columns = _columnsTemaplate.Build(table.Columns);
+			var columns = _columnsTemplate.Build(table.Columns);
 
 			_dataGrid.Columns.Clear();
 			foreach (var column in columns)
 			{
 				_dataGrid.Columns.Add(column);
 			}
-		}
-
-		private void OnAddStudent(object sender, AddingNewItemEventArgs e)
-		{
-			var table = (TableViewModel)_dataGrid.DataContext;
-			var columns = table.Columns.OfType<ResultColumnViewModel>();
-			var student = new Student();
-
-			foreach (var column in columns)
-			{
-				student.Results.Add(column.Header.Name, column.DefaultValue);
-			}
-
-			e.NewItem = student;
 		}
 
 		private void AddColumnExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -86,6 +60,12 @@ namespace TableForGto.Views
 				table.AddColumn(vm.Title, vm.Format);
 				UpdateColumns(table);
 			}
+		}
+
+		private void AddRowsExecured(object sender, ExecutedRoutedEventArgs e)
+		{
+			var table = (TableViewModel)_dataGrid.DataContext;
+			table.AddStudents(50);
 		}
 	}
 }

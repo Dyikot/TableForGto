@@ -11,26 +11,13 @@ using TableForGto.Models;
 
 namespace TableForGto.ViewModels
 {
-    public partial class AddColumnModel : ObservableValidator
+    public partial class AddColumnModel : DialogWindowViewModel
     {
         [ObservableProperty]
 		[Required(ErrorMessage = "Поле не может быть пустым")]
-		private string _title = string.Empty;
-
-        public event EventHandler? Submitted;
+		private string _title = string.Empty;       
 
         public int FormatIndex { get; set; } = 0;
-        public ColumnFormat Format => (ColumnFormat)FormatIndex;
-
-        [RelayCommand]
-		private void Submit()
-        {
-            ValidateAllProperties();
-            
-            if (!HasErrors)
-            {
-                Submitted?.Invoke(this, EventArgs.Empty);
-            }
-        }
+        public ColumnFormat Format => (ColumnFormat)FormatIndex;        
 	}
 }

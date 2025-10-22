@@ -24,10 +24,7 @@ namespace TableForGto.ViewModels
 
 		public TableViewModel(string title)
         {
-            Title = title;            
-            Students = [];
-
-			_columns = new List<ColumnViewModel>
+            _columns = new List<ColumnViewModel>
 			{
 				new MainColumnViewModel
 				{
@@ -49,7 +46,10 @@ namespace TableForGto.ViewModels
 					Width = 125
 				}
 			};
-        }
+
+			Title = title;
+			Students = new(Enumerable.Range(0, 10).Select(i => new Student()));
+		}
 
         public string Title { get; set; }
         public ObservableCollection<Student> Students { get; set; }
@@ -107,6 +107,22 @@ namespace TableForGto.ViewModels
 		public void RemoveColumn(string title)
 		{
 
+		}
+
+		public void AddStudents(int count)
+		{
+			var columns = Columns.OfType<ResultColumnViewModel>().ToList();
+
+			foreach (var i in Enumerable.Range(0, count))
+			{
+				var student = new Student();
+				foreach (var column in columns)
+				{
+					student.Results.Add(column.Header.Name, column.DefaultValue);
+				}
+
+				Students.Add(student);
+			}
 		}
 
 		[RelayCommand]

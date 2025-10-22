@@ -12,5 +12,7 @@ namespace TableForGto.Commands
 	{
 		public static RoutedUICommand AddColumnCommand { get; set; } 
 			= new("Столбец","AddColumn", typeof(MenuCommands));
+		public static RoutedUICommand AddRowsCommand { get; set; }
+			= new("Строки", "AddRows", typeof(MenuCommands));
 	}
 }
