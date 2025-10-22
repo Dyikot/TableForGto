@@ -44,11 +44,7 @@
     <Resource Include="Assets\Images\Menu\Rating.png" />
     <Resource Include="Assets\Images\Menu\SaveProject.png" />
     <Resource Include="Assets\Images\Menu\SelectAll.png" />
-    <Resource Include="Assets\Images\Menu\Calendar.png" />
-    <Resource Include="Assets\Images\Menu\Clock.png" />
     <Resource Include="Assets\Images\Menu\Column.png" />
-    <Resource Include="Assets\Images\Menu\Number.png" />
-    <Resource Include="Assets\Images\Menu\Text.png" />
     <Resource Include="Assets\Images\MainWindowIcon.ico" />
   </ItemGroup>
 

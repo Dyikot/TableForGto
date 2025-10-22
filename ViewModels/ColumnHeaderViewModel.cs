@@ -8,15 +8,15 @@ namespace TableForGto.ViewModels
 {
 	public class ColumnHeaderViewModel
 	{
-		public ColumnHeaderViewModel(string name, string header)
+		public ColumnHeaderViewModel(string name, string title)
 		{
 			Name = name;
-			Content = header;
+			Title = title;
 		}
 
 		public string Name { get; init; }
-		public string Content { get; set; }
+		public string Title { get; set; }
 
-		public override string ToString() => Content;
+		public override string ToString() => Title;
 	}
 }

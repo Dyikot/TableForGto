@@ -5,26 +5,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using TableForGto.Converters;
 using TableForGto.Models;
 
 namespace TableForGto.ViewModels
 {
     public partial class TableViewModel : ObservableObject
     {
-		private int _resultId = 0;
+		private int _columnId = 0;
+		private readonly List<ColumnViewModel> _columns;
 
-        public TableViewModel(string title)
+		public TableViewModel(string title)
         {
             Title = title;            
             Students = [];
 
-			Columns = new List<ColumnViewModel>
+			_columns = new List<ColumnViewModel>
 			{
 				new MainColumnViewModel
 				{
@@ -50,18 +53,47 @@ namespace TableForGto.ViewModels
 
         public string Title { get; set; }
         public ObservableCollection<Student> Students { get; set; }
-        public List<ColumnViewModel> Columns { get; set; }
+		public IEnumerable<ColumnViewModel> Columns => _columns;
 
-		public void AddColumn(object defaultValue, IValueConverter? converter = null)
+		public void AddColumn(string title, ColumnFormat format)
 		{
-			var resultId = _resultId++;
-			var name = resultId.ToString();
-			var content = $"Столбец {Columns.Count + 1}";
+			var columnId = _columnId++;
+			var name = columnId.ToString();
 
-			Columns.Add(new ResultColumnViewModel
+			object defaultValue = null!;
+			IValueConverter? converter = null;
+
+			switch (format)
 			{
-				Header = new(name, content),
-				Order = Columns.Count,
+				case ColumnFormat.Int:
+					defaultValue = 0;
+					converter = new IntConverter();
+					break;
+
+				case ColumnFormat.Float:
+					defaultValue = 0.0f;
+					converter = new FloatConverter();
+					break;
+
+				case ColumnFormat.String:
+					defaultValue = string.Empty;
+					break;
+
+				case ColumnFormat.Time:
+					defaultValue = TimeOnly.MinValue;
+					converter = new TimeConverter();
+					break;
+
+				case ColumnFormat.Date:
+					defaultValue = DateOnly.MinValue;
+					converter = new DateConverter();
+					break;
+			}
+
+			_columns.Add(new ResultColumnViewModel
+			{
+				Header = new(name, title),
+				Order = _columns.Count,
 				DefaultValue = defaultValue,
 				Converter = converter
 			});
@@ -70,6 +102,11 @@ namespace TableForGto.ViewModels
 			{
 				student.Results[name] = defaultValue;
 			}
+		}
+
+		public void RemoveColumn(string title)
+		{
+
 		}
 
 		[RelayCommand]

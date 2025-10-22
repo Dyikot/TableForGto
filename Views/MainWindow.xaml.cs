@@ -47,10 +47,10 @@ namespace TableForGto.Views
 
 		private void OnTableChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			CreateColumns((TableViewModel)e.NewValue);
+			UpdateColumns((TableViewModel)e.NewValue);
 		}
 
-		private void CreateColumns(TableViewModel table)
+		private void UpdateColumns(TableViewModel table)
 		{
 			var columns = _columnsTemaplate.Build(table.Columns);
 
@@ -75,38 +75,17 @@ namespace TableForGto.Views
 			e.NewItem = student;
 		}
 
-
-		private void AddColumn(object defaultValue, IValueConverter? converter = null)
+		private void AddColumnExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			var table = (TableViewModel)_dataGrid.DataContext;
+			var dialog = new AddColumnDialogWindow();
 
-			table.AddColumn(defaultValue, converter);
-			CreateColumns(table);
+			if (dialog.ShowDialog() == true)
+			{
+				var table = (TableViewModel)_dataGrid.DataContext;
+				var vm = (AddColumnModel)dialog.DataContext;
+				table.AddColumn(vm.Title, vm.Format);
+				UpdateColumns(table);
+			}
 		}
-
-		private void AddIntColumnExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			AddColumn(0, new IntConverter());
-		}
-
-		private void AddFloatColumnExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			AddColumn(0.0f, new FloatConverter());
-		}
-
-		private void AddStringColumnExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			AddColumn(string.Empty);
-		}
-
-		private void AddDateColumnExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			AddColumn(DateOnly.MinValue, new DateConverter());
-		}
-
-		private void AddTimeColumnExecuted(object sender, ExecutedRoutedEventArgs e)
-		{
-			AddColumn(TimeOnly.MinValue, new TimeConverter());
-		}		
-    }
+	}
 }

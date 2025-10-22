@@ -1,0 +1,52 @@
+<Window x:Class="TableForGto.Views.AddColumnDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TableForGto.Views"
+        mc:Ignorable="d"
+        Title="Добавление столбца" 
+        Height="300" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ThemeMode="Light"
+        ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=TitleTextBox}">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0 0 0 8" />
+        </Style>
+        <Style TargetType="Image">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button IsCancel="True" Content="Отмена" Margin="0 0 5 0" />
+            <Button IsDefault="True" Content="Создать" Command="{Binding SubmitCommand}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch">            
+            <TextBlock Text="Введите заголовок:" />
+            <TextBox x:Name="TitleTextBox" 
+                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0 0 0 20">
+                <Validation.ErrorTemplate>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <AdornedElementPlaceholder />
+                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Validation.ErrorTemplate>
+            </TextBox>
+            <TextBlock Text="Выберите формат данных:" />
+            <ComboBox SelectedIndex="{Binding FormatIndex}" Margin="0 0 0 20">
+                <ComboBoxItem Content="Числовой (целый)" />
+                <ComboBoxItem Content="Числовой (вещественный)" />
+                <ComboBoxItem Content="Строковый" />
+                <ComboBoxItem Content="Времени" />
+                <ComboBoxItem Content="Даты" />
+            </ComboBox>
+        </StackPanel>
+    </DockPanel>
+</Window>
