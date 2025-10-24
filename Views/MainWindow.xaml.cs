@@ -4,6 +4,8 @@ using System.Data.Common;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using TableForGto.DataTemplates;
 using TableForGto.Models;
@@ -13,7 +15,7 @@ namespace TableForGto.Views
 {
     public partial class MainWindow : Window
 	{
-		private readonly ColumnsTemplate _columnsTemplate = new();
+		private readonly ColumnTemplate _columnTemplate = new();
 
 		public MainWindow()
 		{
@@ -35,13 +37,20 @@ namespace TableForGto.Views
 
 		private void OnTableChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			UpdateColumns((TableViewModel)e.NewValue);
-		}
+			if(e.OldValue is TableViewModel table)
+			{
+				table.ColumnAdded -= OnColumnAdded;
+				table.ColumnRemoved -= OnColumnRemoved;
+			}
 
-		private void UpdateColumns(TableViewModel table)
-		{
-			var columns = _columnsTemplate.Build(table.Columns);
+			table = (TableViewModel)e.NewValue;
+			table.ColumnAdded += OnColumnAdded;
+			table.ColumnRemoved += OnColumnRemoved;
 
+			var columns = table.Columns
+				.Select(_columnTemplate.Build)
+				.OrderBy(c => c.DisplayIndex);
+			
 			_dataGrid.Columns.Clear();
 			foreach (var column in columns)
 			{
@@ -49,23 +58,17 @@ namespace TableForGto.Views
 			}
 		}
 
-		private void AddColumnExecuted(object sender, ExecutedRoutedEventArgs e)
+		private void OnColumnRemoved(object? sender, ColumnViewModel e)
 		{
-			var dialog = new AddColumnDialogWindow();
-
-			if (dialog.ShowDialog() == true)
-			{
-				var table = (TableViewModel)_dataGrid.DataContext;
-				var vm = (AddColumnModel)dialog.DataContext;
-				table.AddColumn(vm.Title, vm.Format);
-				UpdateColumns(table);
-			}
+			var column = _dataGrid.Columns
+				.First(c => (string)((DataGridColumnHeader)c.Header).Content == e.Title);
+			_dataGrid.Columns.Remove(column);
 		}
 
-		private void AddRowsExecured(object sender, ExecutedRoutedEventArgs e)
+		private void OnColumnAdded(object? sender, ColumnViewModel e)
 		{
-			var table = (TableViewModel)_dataGrid.DataContext;
-			table.AddStudents(50);
+			var column = _columnTemplate.Build(e);
+			_dataGrid.Columns.Add(column);
 		}
 	}
 }

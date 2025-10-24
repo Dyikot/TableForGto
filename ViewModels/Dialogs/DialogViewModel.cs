@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TableForGto.ViewModels
 {
-    public partial class DialogWindowViewModel : ObservableValidator
+    public partial class DialogViewModel : ObservableValidator
 	{
 		public event EventHandler? Submitted;
 
@@ -22,5 +22,5 @@ namespace TableForGto.ViewModels
 				Submitted?.Invoke(this, EventArgs.Empty);
 			}
 		}
-	}
+	}	
 }

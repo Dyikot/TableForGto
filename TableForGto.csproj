@@ -16,7 +16,9 @@
     <None Remove="Assets\Images\AppIcon.ico" />
     <None Remove="Assets\Images\Calendar.png" />
     <None Remove="Assets\Images\Clock.png" />
+    <None Remove="Assets\Images\Close.png" />
     <None Remove="Assets\Images\Column.png" />
+    <None Remove="Assets\Images\Edit.png" />
     <None Remove="Assets\Images\Menu\AddColumn.png" />
     <None Remove="Assets\Images\Menu\AddRow.png" />
     <None Remove="Assets\Images\Menu\Clear.png" />
@@ -30,6 +32,9 @@
     <None Remove="Assets\Images\Menu\Rating.png" />
     <None Remove="Assets\Images\Menu\SaveProject.png" />
     <None Remove="Assets\Images\Menu\SelectAll.png" />
+    <None Remove="Assets\Images\MessageDialog\Error.png" />
+    <None Remove="Assets\Images\MessageDialog\Info.png" />
+    <None Remove="Assets\Images\MessageDialog\Warning.png" />
     <None Remove="Assets\Images\Number.png" />
     <None Remove="Assets\Images\Text.png" />
   </ItemGroup>
@@ -37,6 +42,8 @@
   <ItemGroup>
     <Resource Include="Assets\Images\Add.png" />
     <Resource Include="Assets\Images\AppIcon.ico" />
+    <Resource Include="Assets\Images\Close.png" />
+    <Resource Include="Assets\Images\Edit.png" />
     <Resource Include="Assets\Images\Menu\AddColumn.png" />
     <Resource Include="Assets\Images\Menu\AddRow.png" />
     <Resource Include="Assets\Images\Menu\Clear.png" />
@@ -50,6 +57,9 @@
     <Resource Include="Assets\Images\Menu\Rating.png" />
     <Resource Include="Assets\Images\Menu\SaveProject.png" />
     <Resource Include="Assets\Images\Menu\SelectAll.png" />
+    <Resource Include="Assets\Images\MessageDialog\Error.png" />
+    <Resource Include="Assets\Images\MessageDialog\Info.png" />
+    <Resource Include="Assets\Images\MessageDialog\Warning.png" />
   </ItemGroup>
 
   <ItemGroup>

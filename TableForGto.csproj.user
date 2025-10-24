@@ -10,7 +10,13 @@
     <ApplicationDefinition Update="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Update="Views\AddColumnDialogWindow.xaml.cs">
+    <Compile Update="Views\Dialogs\AddColumnDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Dialogs\MessageDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Dialogs\RenameColumnDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Page Update="Views\MainWindow.xaml">

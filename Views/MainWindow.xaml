@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableForGto"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:vm="clr-namespace:TableForGto.ViewModels"
-        xmlns:commands="clr-namespace:TableForGto.Commands"
         mc:Ignorable="d"
         Title="TableForGto" 
         Height="900" Width="1600"
@@ -14,14 +14,16 @@
         WindowStartupLocation="CenterScreen"
         ThemeMode="Light"
         Icon="/Assets/Images/AppIcon.ico">
+    <Window.Resources>
+        <system:Int32 x:Key="10">10</system:Int32>
+        <system:Int32 x:Key="25">25</system:Int32>
+        <system:Int32 x:Key="50">50</system:Int32>
+        <system:Int32 x:Key="100">100</system:Int32>
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="NewExecuted" />
         <CommandBinding Command="Open" Executed="OpenExecuted" />
         <CommandBinding Command="Close" Executed="CloseExecuted" />
-        <CommandBinding Command="{x:Static commands:MenuCommands.AddColumnCommand}"
-                        Executed="AddColumnExecuted" />
-        <CommandBinding Command="{x:Static commands:MenuCommands.AddRowsCommand}"
-                        Executed="AddRowsExecured" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
@@ -89,16 +91,28 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Вставка">
-                <MenuItem Command="{x:Static commands:MenuCommands.AddColumnCommand}">
+            <MenuItem Header="Вставка" DataContext="{Binding SelectedTable}">
+                <MenuItem Header="Столбец" Command="{Binding AddColumnCommand}">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/AddColumn.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{x:Static commands:MenuCommands.AddRowsCommand}">
+                <MenuItem Header="Строки">
                     <MenuItem.Icon>
                         <Image Source="/Assets/Images/Menu/AddRow.png" />
                     </MenuItem.Icon>
+                    <MenuItem Header="10" 
+                              Command="{Binding AddStudentsCommand}"
+                              CommandParameter="{StaticResource 10}" />
+                    <MenuItem Header="25" 
+                              Command="{Binding AddStudentsCommand}" 
+                              CommandParameter="{StaticResource 25}" />
+                    <MenuItem Header="50" 
+                              Command="{Binding AddStudentsCommand}" 
+                              CommandParameter="{StaticResource 50}" />
+                    <MenuItem Header="100" 
+                              Command="{Binding AddStudentsCommand}"
+                              CommandParameter="{StaticResource 100}" />
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Рейтинг">

@@ -11,7 +11,7 @@ using TableForGto.Models;
 
 namespace TableForGto.ViewModels
 {
-    public partial class AddColumnModel : DialogWindowViewModel
+    public partial class AddColumnDialogModel : DialogViewModel
     {
         [ObservableProperty]
 		[Required(ErrorMessage = "Поле не может быть пустым")]

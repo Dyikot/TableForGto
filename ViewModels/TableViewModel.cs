@@ -19,29 +19,32 @@ namespace TableForGto.ViewModels
 {
     public partial class TableViewModel : ObservableObject
     {
+		private readonly AddColumnDialogService _addColumnDialog = new();
 		private int _columnId = 0;
-		private readonly List<ColumnViewModel> _columns;
 
 		public TableViewModel(string title)
-        {
-            _columns = new List<ColumnViewModel>
+		{
+			Columns = new List<ColumnViewModel>
 			{
-				new MainColumnViewModel
+				new()
 				{
-					Header = new("Place", "Место"),
+					Name = "Place",
+					Title = "Место",
 					Order = 0,
-					Width = 75, 
-					IsReadOnly = true, 
+					Width = 75,
+					IsReadOnly = true,
 				},
-				new MainColumnViewModel
+				new()
 				{
-					Header = new("FullName", "ФИО"),
+					Name = "FullName",
+					Title = "ФИО",
 					Order = 1,
 					Width = 250
 				},
-				new MainColumnViewModel
+				new()
 				{
-					Header = new("Group", "Группа"),
+					Name = "Group",
+					Title = "Группа",
 					Order = 2,
 					Width = 125
 				}
@@ -51,11 +54,23 @@ namespace TableForGto.ViewModels
 			Students = new(Enumerable.Range(0, 10).Select(i => new Student()));
 		}
 
-        public string Title { get; set; }
-        public ObservableCollection<Student> Students { get; set; }
-		public IEnumerable<ColumnViewModel> Columns => _columns;
+		public event EventHandler<ColumnViewModel>? ColumnAdded;
+		public event EventHandler<ColumnViewModel>? ColumnRemoved;
 
-		public void AddColumn(string title, ColumnFormat format)
+		public string Title { get; set; }
+        public ObservableCollection<Student> Students { get; set; }
+		public List<ColumnViewModel> Columns { get; private set; }
+
+		[RelayCommand]
+		private void AddColumn()
+		{
+			if(_addColumnDialog.Show(out var result))
+			{
+				AddColumn(result.Title, result.Format);
+			}
+		}
+
+		private void AddColumn(string title, ColumnFormat format)
 		{
 			var columnId = _columnId++;
 			var name = columnId.ToString();
@@ -90,25 +105,32 @@ namespace TableForGto.ViewModels
 					break;
 			}
 
-			_columns.Add(new ResultColumnViewModel
+			var column = new ResultColumnViewModel(RemoveColumn)
 			{
-				Header = new(name, title),
-				Order = _columns.Count,
+				Name = name,
+				Title = title,
+				Order = Columns.Count,
 				DefaultValue = defaultValue,
 				Converter = converter
-			});
+			};
+
+			Columns.Add(column);
 
 			foreach(var student in Students)
 			{
 				student.Results[name] = defaultValue;
 			}
+
+			ColumnAdded?.Invoke(this, column);
 		}
 
-		public void RemoveColumn(string title)
+		public void RemoveColumn(ColumnViewModel column)
 		{
-
+			Columns.Remove(column);
+			ColumnRemoved?.Invoke(this, column);
 		}
 
+		[RelayCommand]
 		public void AddStudents(int count)
 		{
 			var columns = Columns.OfType<ResultColumnViewModel>().ToList();
@@ -118,7 +140,7 @@ namespace TableForGto.ViewModels
 				var student = new Student();
 				foreach (var column in columns)
 				{
-					student.Results.Add(column.Header.Name, column.DefaultValue);
+					student.Results.Add(column.Name, column.DefaultValue);
 				}
 
 				Students.Add(student);

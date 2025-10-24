@@ -1,0 +1,40 @@
+<Window x:Class="TableForGto.Views.MessageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TableForGto.Views"
+        mc:Ignorable="d"
+        Title="{Binding Title}" 
+        Height="200" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ThemeMode="Light"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="Image">
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Margin" Value="0 0 10 0" />
+            <Setter Property="DockPanel.Dock" Value="Left" />
+        </Style>
+    </Window.Resources>
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button IsCancel="True" 
+                    Content="{Binding CancelText}" 
+                    Visibility="{Binding CancelVisibility}"
+                    Width="80"
+                    Margin="0 0 5 0" />
+            <Button IsDefault="True" 
+                    Content="{Binding SubmitText}" 
+                    Command="{Binding SubmitCommand}"
+                    Width="80"/>
+        </StackPanel>
+        <DockPanel Margin="0 0 0 10">
+            <Image Source="{Binding Icon}" />
+            <TextBlock Text="{Binding Description}"
+                       VerticalAlignment="Center"
+                       TextWrapping="Wrap" />
+        </DockPanel>
+    </DockPanel>
+</Window>

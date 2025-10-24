@@ -15,16 +15,15 @@ using TableForGto.ViewModels;
 
 namespace TableForGto.Views
 {
-    public partial class AddColumnDialogWindow : Window
-    {
-        public AddColumnDialogWindow()
-        {
-            InitializeComponent();
-
-            var vm = new AddColumnModel();
+	public partial class RenameColumnDialog : Window
+	{
+		public RenameColumnDialog()
+		{
+			InitializeComponent();
+			var vm = new RenameColumnDialogModel();
 			vm.Submitted += OnSubmitted;
-			DataContext = vm;			
-        }
+			DataContext = vm;
+		}
 
 		private void OnSubmitted(object? sender, EventArgs e)
 		{
